@@ -1,7 +1,9 @@
 package com.datavle.api.demo;
 
 import com.datavle.api.demo.concurrency.DemoThread;
+import com.datavle.api.demo.concurrency.webcrawler.WebCrawler;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -12,6 +14,21 @@ public class HelloWorld {
 
         return "Hello Datavle v1";
 
+    }
+
+    @RequestMapping("/demo/webcrawler/1")
+    public String startCrawling(@RequestParam String url){
+        WebCrawler webCrawler = new WebCrawler(url, 64);
+
+        System.out.println(" url in rest controller " + url);
+
+        try {
+            webCrawler.startCrawling();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return "web crawler started for url " + url + " with 64 threads";
     }
 
     @RequestMapping("/demo/threads")
